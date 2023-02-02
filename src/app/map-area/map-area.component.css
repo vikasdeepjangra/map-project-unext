@@ -1,0 +1,20 @@
+.match-parent {
+    width: 50vw;
+    height: 50vh;
+}
+
+.form-outline{
+    width: 40vw;
+}
+
+.border{
+    border: 10px solid #f0ad4e !important;
+}
+
+.map-search-result-area{
+    width: 100%;
+}
+
+.map-search-result-options{
+    width: 43vw;
+}
