@@ -7,7 +7,8 @@
 <!-- SEARCH BOX -->
 <div class="input-group d-flex justify-content-center searchBoxDiv mb-4">
     <div class="form-outline">
-        <input type="search" [(ngModel)] = "searchBoxString" class="form-control" placeholder="Enter a Location"/>
+        <input type="search" [(ngModel)] = "searchBoxString" (input)="getLocationStringAndConvertToCoordinates()" 
+        class="form-control" placeholder="Enter a Location"/>
     </div>
     <button type="button" class="btn btn-warning" (click)="getLocationStringAndConvertToCoordinates()">
       <i class="fa fa-search"></i>

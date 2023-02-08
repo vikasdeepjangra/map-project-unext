@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from '../../environments/environment';
@@ -21,7 +21,6 @@ export class MapAreaComponent implements OnInit {
   apiData:any;
   allLocationOptions:any = new GetAllDetailsService;
 
-
   ngOnInit() {
 
     (mapboxgl as typeof mapboxgl).accessToken = environment.mapbox.accessToken;
@@ -37,10 +36,13 @@ export class MapAreaComponent implements OnInit {
 
   getLocationStringAndConvertToCoordinates(){
 
-    if(this.searchBoxString == ""){
-      alert("Empty String");
+    if(this.searchBoxString == "" || this.searchBoxString.length < 3){
+      this.allLocationOptions = new GetAllDetailsService;
     }
 
+    //console.log(this.searchBoxString);
+
+    if(this.searchBoxString.length > 3){
     let headers = new HttpHeaders({});
 
     let urlFind:string = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.searchBoxString}.json?limit=5&access_token=pk.eyJ1IjoidmlrYXNkZWVwamFuZ3JhIiwiYSI6ImNsZGswNmZkNTE0bmUzdmwxbjZ0MTVvNm4ifQ.nVk9LyxsgiYx1Mf9FlVYag`;
@@ -50,6 +52,8 @@ export class MapAreaComponent implements OnInit {
       this.apiData = result.features;
       this.getList();
     });
+  
+  }
 
   }
 
@@ -59,12 +63,9 @@ export class MapAreaComponent implements OnInit {
       this.allLocationOptions.longitude[i] = this.apiData[i].geometry.coordinates[0];
       this.allLocationOptions.latitude[i] = this.apiData[i].geometry.coordinates[1];
     }
-    console.log('All Location Options:', this.allLocationOptions);
-    console.log(this.allLocationOptions.locationName)
   }
 
   plotOnMap(x: any){
-    (mapboxgl as typeof mapboxgl).accessToken = environment.mapbox.accessToken;
     this.map = new mapboxgl.Map({
         container: 'map',
         style: this.style,
